@@ -1,7 +1,12 @@
 import '../style/App.css';
+import Button from './Button';
 
 function App() {
-  return <div className='App'>Hello world</div>;
+  return (
+    <div className='App'>
+      <Button />
+    </div>
+  );
 }
 
 export default App;
