@@ -36,14 +36,34 @@ const StyledButtonCol = styled.button`
   transition: all 0.2s;
 `;
 
+const Article = styled.article`
+  padding: 3rem;
+  border: 1px solid #000;
+
+  & button:hover {
+    font-size: 1.2rem;
+  }
+  &:hover {
+    & button {
+      transform: scale(1.3);
+    }
+  }
+`;
+
 export default function Button() {
   return (
     <>
-      <StyledBtn>Styled </StyledBtn>
+      {/* <StyledBtn>Styled </StyledBtn>
       <button className={st.btn}>Module button</button>
       <GreenStyledButton>green style</GreenStyledButton>
       <StyledButtonCol color='tomato'>variable style</StyledButtonCol>
-      <StyledButtonCol color='violet'>variable style</StyledButtonCol>
+       */}
+      <div>
+        <Article>
+          <StyledButtonCol color='violet'>variable style</StyledButtonCol>
+        </Article>
+        <StyledButtonCol color='tomato'>variable style</StyledButtonCol>
+      </div>
     </>
   );
 }
