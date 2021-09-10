@@ -21,6 +21,7 @@ export default function HomePage() {
   // }, []);
 
   function handleScroll() {
+    console.log('handleScroll');
     const asideTopDistance = asideRef.current.getBoundingClientRect().top;
     const asideBottomDistance = asideRef.current.getBoundingClientRect().bottom;
     const blogTopDistance = blogRef.current.getBoundingClientRect().top;

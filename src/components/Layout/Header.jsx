@@ -1,10 +1,11 @@
 import css from './Header.module.css';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import useStrapi from '../../hooks/useStrapi';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link, useRouteMatch, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../store/AuthProvider';
 
 export default function Header({ page }) {
+  const history = useHistory();
   const authCtx = useContext(AuthContext);
   // console.log('header auth context', authCtx);
   const userEmail = authCtx.userInfo.email;
@@ -14,9 +15,9 @@ export default function Header({ page }) {
   const [menuItems] = useStrapi('/canvas-menus');
 
   // jei nesam prisilogine tai isfiltruoti members only page kurio id 8
-  console.log('menuItems', menuItems);
-  const filteredMenuItems = menuItems.filter(() => {});
-  const finalMenuItems = userEmail ? menuItems : menuItems;
+
+  // const filteredMenuItems = menuItems.filter((item) => item.id !== 8);
+  // const finalMenuItems = userEmail ? menuItems : filteredMenuItems;
   // const match = useRouteMatch();
   // useEffect(() => {
   //   console.log('match', match);
@@ -44,6 +45,7 @@ export default function Header({ page }) {
     e.preventDefault();
     console.log('prevented');
     authCtx.logout();
+    history.push('/');
   }
   return (
     <header
@@ -55,7 +57,7 @@ export default function Header({ page }) {
         Canvas<strong>Store</strong>
       </Link>
       <nav className={css['main-nav']}>
-        {finalMenuItems.map((l) => (
+        {menuItems.map((l) => (
           <Link key={l.link} to={l.link}>
             {l.title}
           </Link>
