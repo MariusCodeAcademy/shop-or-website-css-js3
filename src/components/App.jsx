@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import LoginPage from '../pages/LoginPage';
 import AuthProvider from '../store/AuthProvider';
 import MembersOnlyPage from '../pages/MembersOnlyPage';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
   return (
@@ -15,9 +16,9 @@ function App() {
       <AuthProvider>
         {/* <button onClick={btnHandler}>Get ref</button> */}
         <Switch>
-          <Route path='/membersonlypage'>
+          <ProtectedRoute path='/membersonlypage'>
             <MembersOnlyPage />
-          </Route>
+          </ProtectedRoute>
           <Route path='/blog'>
             <BlogPage />
           </Route>

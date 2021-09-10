@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import useInput from '../../hooks/useInput';
@@ -85,6 +85,15 @@ export default function LoginForm() {
     // redirect
     history.replace('/blog');
   }
+
+  useEffect(() => {
+    // componentWillUmount
+    return () => {
+      console.log('clean up');
+      setFormError(null);
+    };
+  }, []);
+
   return (
     <Card>
       <h2>Hello, welcome back</h2>
