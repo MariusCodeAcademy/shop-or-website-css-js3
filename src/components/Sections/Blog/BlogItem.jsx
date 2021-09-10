@@ -4,7 +4,12 @@ import { Link, useRouteMatch } from 'react-router-dom';
 
 export default function BlogItem({ blog: b, singlePage }) {
   const match = useRouteMatch();
-  // console.log(match);
+  console.log('match', match);
+
+  // match.url === /membersonlypage/3sdfsdfsdfsdf
+  // gauti /membersonlypage
+  const backPath = match.url.slice(0, match.url.lastIndexOf('/'));
+  console.log('backPath', backPath);
   return (
     <article
       className={`${css['blog-item']} ${singlePage ? css.singlePage : ''}`}
@@ -34,7 +39,7 @@ export default function BlogItem({ blog: b, singlePage }) {
           View details <Icon icon='long-arrow-right' />
         </Link>
       )}
-      {singlePage && <Link to='/blog'>Go back</Link>}
+      {singlePage && <Link to={backPath}>Go back</Link>}
     </article>
   );
 }
