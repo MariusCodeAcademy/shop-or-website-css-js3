@@ -30,7 +30,7 @@ export default function BlogItem({ blog: b, singlePage }) {
       )}
       {/* match.url - grazina dabartini url adresa */}
       {!singlePage && (
-        <Link to={`${match.url}/${b.id}`}>
+        <Link to={`${match.path}/${b.id}`}>
           View details <Icon icon='long-arrow-right' />
         </Link>
       )}

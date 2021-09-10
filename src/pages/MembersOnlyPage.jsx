@@ -6,7 +6,14 @@ import SingleBlogPage from './SingleBlogPage';
 export default function MembersOnlyPage() {
   return (
     <Layout page='blog'>
-      <Blog kind='paid' />
+      <Switch>
+        <Route path='/membersonlypage/:blogId'>
+          <SingleBlogPage membersOnly />
+        </Route>
+        <Route path='/membersonlypage'>
+          <Blog kind='paid' />
+        </Route>
+      </Switch>
     </Layout>
   );
 }

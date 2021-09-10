@@ -2,11 +2,13 @@ import { useParams } from 'react-router';
 import BlogItem from '../components/Sections/Blog/BlogItem';
 import useStrapi from '../hooks/useStrapi';
 
-export default function SingleBlogPage() {
+export default function SingleBlogPage({ membersOnly }) {
   const { blogId } = useParams();
   // console.log('params', blogId);
-
-  const [blogObj] = useStrapi(`/canvas-blogs/${blogId}`);
+  const correctRequestAddress = membersOnly
+    ? 'canvas-paid-blogs'
+    : 'canvas-blogs';
+  const [blogObj] = useStrapi(`/${correctRequestAddress}/${blogId}`);
   // console.log(blogObj);
   /// useStrapi hook
   // get data, pass data as blog
