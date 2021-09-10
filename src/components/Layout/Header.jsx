@@ -43,7 +43,7 @@ export default function Header({ page }) {
   // header dalyje kai prisiloginam mes parodom user email navigacijoj
   function logoutHandler(e) {
     e.preventDefault();
-    console.log('prevented');
+    // console.log('prevented');
     authCtx.logout();
     history.push('/');
   }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const postData = async (dataToSend, urlEnd) => {
+export const postData = async (dataToSend, urlEnd, token = null) => {
   try {
     const { data } = await axios.post(
       `${process.env.REACT_APP_STRAPI_URL}${urlEnd}`,

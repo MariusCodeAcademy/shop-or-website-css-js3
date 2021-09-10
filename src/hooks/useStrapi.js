@@ -22,7 +22,7 @@ export default function useStrapi(urlEnd, token = null) {
       setIsLoading(true);
       setError('');
       try {
-        console.log('axios sent request in useStrapi');
+        // console.log('axios sent request in useStrapi');
         const { data } = await axios.get(
           `${process.env.REACT_APP_STRAPI_URL}${urlEnd}`,
           headersObj

@@ -26,10 +26,10 @@ export default function AuthProvider({ children }) {
   function loginHandler(token, userData) {
     setToken(token);
     setUserInfo(userData);
-    console.log('loginHandler() has set the token');
+    // console.log('loginHandler() has set the token');
   }
   function logoutHandler() {
-    console.log('logoutHandler() ivyko');
+    // console.log('logoutHandler() ivyko');
     setToken('');
     setUserInfo({});
   }

@@ -8,7 +8,7 @@ export default function MembersOnlyPage() {
     <Layout page='blog'>
       <Switch>
         <Route path='/membersonlypage/:blogId'>
-          <SingleBlogPage membersOnly />
+          <SingleBlogPage kind='paid' membersOnly />
         </Route>
         <Route path='/membersonlypage'>
           <Blog kind='paid' />
