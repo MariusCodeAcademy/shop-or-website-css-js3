@@ -5,6 +5,7 @@ import useInput from '../../hooks/useInput';
 import { postData } from '../../utils/http';
 import { AuthContext } from '../../store/AuthProvider';
 import { useHistory, Link } from 'react-router-dom';
+import { doPasswordsMatch } from '../../utils/validate';
 
 const Card = styled.div`
   max-width: 400px;
@@ -22,6 +23,10 @@ const Card = styled.div`
     padding: 4px;
     width: 100%;
     margin-bottom: 10px;
+  }
+  input.invalid {
+    border-color: tomato;
+    background-color: rgb(255, 200, 190);
   }
   h2 {
     margin: 1rem auto;
@@ -64,18 +69,35 @@ export default function RegisterForm() {
   const [password, setPassword] = useInput('123456');
   const [passwordRepeat, setPasswordRepeat] = useInput('12345');
 
-  const [formError, setFormError] = useState('');
+  const [formError, setFormError] = useState({
+    email: false,
+    passwordMatch: false,
+    form: false,
+  });
 
   async function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) {
-      return setFormError('Fill in fields');
+      return setFormError({
+        ...formError,
+        form: 'email and pass cant be blank',
+      });
     }
     console.log(email, password, passwordRepeat);
     // patikrinti ar slaptazodiziai sutampa, jei ne ismesti klaida
     // parodyti klaida formoj
     // isvalyti klaidas kai slaptazodziai sutampa
     // patikrinti kad email validuma su regex arba tiesiog patikrinti kad jis turetu @ ir taska po @
+    const passMatch = doPasswordsMatch(password, passwordRepeat);
+    if (passMatch) {
+      console.log('its match');
+    } else {
+      console.log('not match');
+      setFormError({
+        ...formError,
+        passwordMatch: 'pass must match',
+      });
+    }
     return;
     const postToStrapiAuthReslut = await postData(
       { email, password },
@@ -104,6 +126,7 @@ export default function RegisterForm() {
     <Card>
       <h2>Hello, welcome back</h2>
       <Hr />
+      {formError.passwordMatch && <p>{formError.passwordMatch}</p>}
       <form onSubmit={handleSubmit}>
         <input
           value={email}
@@ -112,12 +135,14 @@ export default function RegisterForm() {
           placeholder='Username or email'
         />
         <input
+          className={formError.passwordMatch ? 'invalid' : ''}
           value={password}
           onChange={setPassword}
           type='password'
           placeholder='Password'
         />
         <input
+          className={formError.passwordMatch ? 'invalid' : ''}
           value={passwordRepeat}
           onChange={setPasswordRepeat}
           type='password'
