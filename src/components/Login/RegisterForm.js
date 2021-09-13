@@ -91,7 +91,7 @@ export default function RegisterForm() {
         form: 'email and pass cant be blank',
       });
     }
-    console.log(email, password, passwordRepeat);
+    // console.log(email, password, passwordRepeat);
 
     // patikrinti ar slaptazodiziai sutampa, jei ne ismesti klaida
     // parodyti klaida formoj
@@ -99,9 +99,9 @@ export default function RegisterForm() {
     // patikrinti kad email validuma su regex arba tiesiog patikrinti kad jis turetu @ ir taska po @
     const passMatch = doPasswordsMatch(password, passwordRepeat);
     const validEmail = verifyEmail(email);
-    console.log('validEmail', validEmail);
+    // console.log('validEmail', validEmail);
     if (!validEmail) {
-      console.log('invalid email');
+      // console.log('invalid email');
       setFormError((errorState) => ({
         ...errorState,
         email: 'Please check email format',
@@ -109,12 +109,19 @@ export default function RegisterForm() {
     }
     // pass match validation
     if (!passMatch) {
-      console.log('not match');
+      // console.log('not match');
       setFormError((errorState) => ({
         ...errorState,
         passwordMatch: 'pass must match',
       }));
     }
+    // jei nera klaidu tai registruojam vartotoja
+    // debugger;
+    if (!formError.email) {
+      console.log('valid email');
+      return;
+    }
+    console.log('invalid form');
     return;
     const postToStrapiAuthReslut = await postData(
       { email, password },
