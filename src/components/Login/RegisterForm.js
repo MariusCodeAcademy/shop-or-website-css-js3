@@ -65,11 +65,12 @@ export default function RegisterForm() {
   const history = useHistory();
   const authCtx = useContext(AuthContext);
   // console.log('authCtx', authCtx);
-  const [email, setEmail] = useInput('james@auth.com');
-  const [password, setPassword] = useInput('123456');
-  const [passwordRepeat, setPasswordRepeat] = useInput('12345');
+  const [email, setEmail] = useInput('');
+  const [password, setPassword] = useInput('');
+  const [passwordRepeat, setPasswordRepeat] = useInput('');
 
   const [formIsValid, setFormIsValid] = useState(null);
+  const [formWasTouched, setFormWasTouched] = useState(false);
 
   const isFormFilled = email.trim() !== '' && password.trim() !== '';
   const emailIsValid = verifyEmail(email);
@@ -79,8 +80,10 @@ export default function RegisterForm() {
     if (isFormFilled && emailIsValid && passMatch) {
       return setFormIsValid(true);
     }
-    setFormIsValid(false);
-  }, [isFormFilled, emailIsValid, passMatch]);
+    setFormIsValid(formWasTouched ? false : null);
+  }, [isFormFilled, emailIsValid, passMatch, formWasTouched]);
+
+  console.log('formIsValid reiksme ', formIsValid);
 
   // const [formError, setFormError] = useState({
   //   email: false,
@@ -97,7 +100,8 @@ export default function RegisterForm() {
     console.log('we shoud not see this if form is not valid');
     const postToStrapiAuthReslut = await postData(
       { email, password },
-      '/auth/local'
+      '/auth/local/register',
+      true
     );
     // console.log(postToStrapiAuthReslut);
     // irasyti token i context
@@ -122,26 +126,29 @@ export default function RegisterForm() {
     <Card>
       <h2>Hello, welcome back</h2>
       <Hr />
-      {!isFormFilled && <p>Please fill all fields</p>}
-      {!emailIsValid && <p>Please check your email</p>}
-      {!passMatch && <p>Passwords do not match</p>}
+      {!isFormFilled && formWasTouched && <p>Please fill all fields</p>}
+      {!emailIsValid && formWasTouched && <p>Please check your email</p>}
+      {!passMatch && formWasTouched && <p>Passwords do not match</p>}
       <form onSubmit={handleSubmit}>
         <input
-          className={!emailIsValid ? 'invalid' : ''}
+          onBlur={() => setFormWasTouched(true)}
+          className={!emailIsValid && formWasTouched ? 'invalid' : ''}
           value={email}
           onChange={setEmail}
           type='text'
           placeholder='Username or email'
         />
         <input
-          className={!isFormFilled ? 'invalid' : ''}
+          onBlur={() => setFormWasTouched(true)}
+          className={!isFormFilled && formWasTouched ? 'invalid' : ''}
           value={password}
           onChange={setPassword}
           type='password'
           placeholder='Password'
         />
         <input
-          className={!passMatch ? 'invalid' : ''}
+          onBlur={() => setFormWasTouched(true)}
+          className={!passMatch && formWasTouched ? 'invalid' : ''}
           value={passwordRepeat}
           onChange={setPasswordRepeat}
           type='password'

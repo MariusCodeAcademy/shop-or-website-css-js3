@@ -1,13 +1,17 @@
 import axios from 'axios';
 
-export const postData = async (dataToSend, urlEnd, token = null) => {
+export const postData = async (dataToSend, urlEnd, register, token = null) => {
+  const sendPayload = register
+    ? {
+        username: dataToSend.email,
+        email: dataToSend.email,
+        password: dataToSend.password,
+      }
+    : { identifier: dataToSend.email, password: dataToSend.password };
   try {
     const { data } = await axios.post(
       `${process.env.REACT_APP_STRAPI_URL}${urlEnd}`,
-      {
-        identifier: dataToSend.email,
-        password: dataToSend.password,
-      }
+      sendPayload
       // {
       //   headers: {
       //     Authorization: 'Bearer token'
