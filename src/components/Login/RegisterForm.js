@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
 import { postData } from '../../utils/http';
 import { AuthContext } from '../../store/AuthProvider';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 const Card = styled.div`
   max-width: 400px;
@@ -39,7 +39,7 @@ const Card = styled.div`
     background-color: #545454;
     cursor: not-allowed;
   }
-  a {
+  form a {
     display: block;
     text-align: right;
     margin-bottom: 1rem;
@@ -71,7 +71,12 @@ export default function RegisterForm() {
     if (!email || !password) {
       return setFormError('Fill in fields');
     }
-    // console.log(email, password);
+    console.log(email, password, passwordRepeat);
+    // patikrinti ar slaptazodiziai sutampa, jei ne ismesti klaida
+    // parodyti klaida formoj
+    // isvalyti klaidas kai slaptazodziai sutampa
+    // patikrinti kad email validuma su regex arba tiesiog patikrinti kad jis turetu @ ir taska po @
+    return;
     const postToStrapiAuthReslut = await postData(
       { email, password },
       '/auth/local'
@@ -122,7 +127,9 @@ export default function RegisterForm() {
         <button type='submit'>Register</button>
       </form>
       <Hr />
-      <h6>Have an account? Login up</h6>
+      <h6>
+        Have an account? <Link to='login'>Login</Link>
+      </h6>
     </Card>
   );
 }
