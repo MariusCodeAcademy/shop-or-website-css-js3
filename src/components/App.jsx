@@ -9,6 +9,7 @@ import LoginPage from '../pages/LoginPage';
 import AuthProvider from '../store/AuthProvider';
 import MembersOnlyPage from '../pages/MembersOnlyPage';
 import ProtectedRoute from './ProtectedRoute';
+import RegisterPage from '../pages/RegisterPage';
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
           </Route>
           <Route path='/login'>
             <LoginPage />
+          </Route>
+          <Route path='/register'>
+            <RegisterPage />
           </Route>
           <Route path='/'>
             <HomePage />
