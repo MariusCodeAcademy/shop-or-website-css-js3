@@ -11,7 +11,7 @@ export default function MembersOnlyPage() {
           <SingleBlogPage kind='paid' membersOnly />
         </Route>
         <Route path='/membersonlypage'>
-          <Blog kind='paid' membersOnly />
+          <Blog kind='paid' membersOnlyBackFlag />
         </Route>
       </Switch>
     </Layout>

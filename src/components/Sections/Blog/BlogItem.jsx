@@ -2,7 +2,12 @@ import css from './BlogItem.module.css';
 import Icon from '../../UI/Icon';
 import { Link, useRouteMatch } from 'react-router-dom';
 
-export default function BlogItem({ blog: b, singlePage, kind, membersOnly }) {
+export default function BlogItem({
+  blog: b,
+  singlePage,
+  kind,
+  membersOnlyBackFlag,
+}) {
   const match = useRouteMatch();
   console.log('match', match);
 
@@ -10,7 +15,8 @@ export default function BlogItem({ blog: b, singlePage, kind, membersOnly }) {
   // gauti /membersonlypage
 
   let backPath = match.url.slice(0, match.url.lastIndexOf('/'));
-  if (!membersOnly) backPath = '/blog';
+  console.log('membersOnlyBackFlag', membersOnlyBackFlag);
+  if (!membersOnlyBackFlag) backPath = '/blog';
   console.log('backPath', backPath);
   const oneArticleUrl =
     kind === 'paid' ? `/membersonlypage/${b.id}` : `${match.path}/${b.id}`;

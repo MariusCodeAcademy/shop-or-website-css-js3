@@ -26,7 +26,7 @@ const Blog = React.forwardRef((props, blogRef) => {
       {blogs.map((b) => (
         <BlogItem
           kind={props.kind}
-          membersOnly={props.membersOnly}
+          membersOnlyBackFlag={props.membersOnlyBackFlag}
           key={b.id}
           blog={b}
         />
