@@ -5,13 +5,13 @@ import SingleBlogPage from './SingleBlogPage';
 
 export default function MembersOnlyPage() {
   return (
-    <Layout page='blog'>
+    <Layout page='membersOnly'>
       <Switch>
         <Route path='/membersonlypage/:blogId'>
           <SingleBlogPage kind='paid' membersOnly />
         </Route>
         <Route path='/membersonlypage'>
-          <Blog kind='paid' />
+          <Blog kind='paid' membersOnly />
         </Route>
       </Switch>
     </Layout>

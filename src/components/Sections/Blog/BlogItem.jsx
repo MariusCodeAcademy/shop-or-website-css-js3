@@ -2,14 +2,18 @@ import css from './BlogItem.module.css';
 import Icon from '../../UI/Icon';
 import { Link, useRouteMatch } from 'react-router-dom';
 
-export default function BlogItem({ blog: b, singlePage }) {
+export default function BlogItem({ blog: b, singlePage, kind, membersOnly }) {
   const match = useRouteMatch();
   console.log('match', match);
 
   // match.url === /membersonlypage/3sdfsdfsdfsdf
   // gauti /membersonlypage
-  const backPath = match.url.slice(0, match.url.lastIndexOf('/'));
+
+  let backPath = match.url.slice(0, match.url.lastIndexOf('/'));
+  if (!membersOnly) backPath = '/blog';
   console.log('backPath', backPath);
+  const oneArticleUrl =
+    kind === 'paid' ? `/membersonlypage/${b.id}` : `${match.path}/${b.id}`;
   return (
     <article
       className={`${css['blog-item']} ${singlePage ? css.singlePage : ''}`}
@@ -33,9 +37,10 @@ export default function BlogItem({ blog: b, singlePage }) {
           </a>
         </address>
       )}
+
       {/* match.url - grazina dabartini url adresa */}
       {!singlePage && (
-        <Link to={`${match.path}/${b.id}`}>
+        <Link to={oneArticleUrl}>
           View details <Icon icon='long-arrow-right' />
         </Link>
       )}
