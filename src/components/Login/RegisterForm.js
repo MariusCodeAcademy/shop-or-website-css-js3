@@ -5,7 +5,7 @@ import useInput from '../../hooks/useInput';
 import { postData } from '../../utils/http';
 import { AuthContext } from '../../store/AuthProvider';
 import { useHistory, Link } from 'react-router-dom';
-import { doPasswordsMatch } from '../../utils/validate';
+import { doPasswordsMatch, verifyEmail } from '../../utils/validate';
 
 const Card = styled.div`
   max-width: 400px;
@@ -77,6 +77,14 @@ export default function RegisterForm() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    // reset errors
+    setFormError((state) => {
+      return {
+        email: false,
+        passwordMatch: false,
+        form: false,
+      };
+    });
     if (!email || !password) {
       return setFormError({
         ...formError,
@@ -84,19 +92,28 @@ export default function RegisterForm() {
       });
     }
     console.log(email, password, passwordRepeat);
+
     // patikrinti ar slaptazodiziai sutampa, jei ne ismesti klaida
     // parodyti klaida formoj
     // isvalyti klaidas kai slaptazodziai sutampa
     // patikrinti kad email validuma su regex arba tiesiog patikrinti kad jis turetu @ ir taska po @
     const passMatch = doPasswordsMatch(password, passwordRepeat);
-    if (passMatch) {
-      console.log('its match');
-    } else {
+    const validEmail = verifyEmail(email);
+    console.log('validEmail', validEmail);
+    if (!validEmail) {
+      console.log('invalid email');
+      setFormError((errorState) => ({
+        ...errorState,
+        email: 'Please check email format',
+      }));
+    }
+    // pass match validation
+    if (!passMatch) {
       console.log('not match');
-      setFormError({
-        ...formError,
+      setFormError((errorState) => ({
+        ...errorState,
         passwordMatch: 'pass must match',
-      });
+      }));
     }
     return;
     const postToStrapiAuthReslut = await postData(
@@ -127,8 +144,10 @@ export default function RegisterForm() {
       <h2>Hello, welcome back</h2>
       <Hr />
       {formError.passwordMatch && <p>{formError.passwordMatch}</p>}
+      {formError.email && <p>{formError.email}</p>}
       <form onSubmit={handleSubmit}>
         <input
+          className={formError.email ? 'invalid' : ''}
           value={email}
           onChange={setEmail}
           type='text'
